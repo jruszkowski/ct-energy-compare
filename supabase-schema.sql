@@ -1,6 +1,11 @@
 -- Run this in your Supabase SQL Editor (app.supabase.com → SQL Editor)
 
--- User preferences table
+-- 1. Helper function FIRST (must exist before policies reference it)
+create or replace function requesting_user_id() returns text as $$
+  select nullif(current_setting('request.jwt.claims', true)::json->>'sub', '')::text;
+$$ language sql stable;
+
+-- 2. Tables
 create table if not exists user_prefs (
   user_id text primary key,
   utility text not null default 'eversource',
@@ -30,21 +35,19 @@ create table if not exists saved_comparisons (
 -- Index for fast user lookups
 create index if not exists saved_comparisons_user_id_idx on saved_comparisons(user_id);
 
--- Row Level Security — users can only see their own data
+-- 3. Enable RLS
 alter table user_prefs enable row level security;
 alter table saved_comparisons enable row level security;
 
+-- 4. Policies (drop first so re-running this script is safe)
+drop policy if exists "Users can manage their own prefs" on user_prefs;
 create policy "Users can manage their own prefs"
   on user_prefs for all
   using (user_id = requesting_user_id())
   with check (user_id = requesting_user_id());
 
+drop policy if exists "Users can manage their own comparisons" on saved_comparisons;
 create policy "Users can manage their own comparisons"
   on saved_comparisons for all
   using (user_id = requesting_user_id())
   with check (user_id = requesting_user_id());
-
--- Helper function used by RLS (Clerk sends userId in JWT sub claim)
-create or replace function requesting_user_id() returns text as $$
-  select nullif(current_setting('request.jwt.claims', true)::json->>'sub', '')::text;
-$$ language sql stable;

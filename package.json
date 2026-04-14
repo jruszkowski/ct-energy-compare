@@ -13,7 +13,7 @@
     "react-dom": "^18",
     "@clerk/nextjs": "^5.2.4",
     "@supabase/supabase-js": "^2.44.2",
-    "@anthropic-ai/sdk": "^0.30.0",
+
     "chart.js": "^4.4.3",
     "react-chartjs-2": "^5.2.0",
     "clsx": "^2.1.1"
