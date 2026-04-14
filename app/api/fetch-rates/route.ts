@@ -19,13 +19,16 @@ async function fetchPDF(url: string): Promise<string | null> {
       max_tokens: 1500,
       messages: [{
         role: 'user',
-        content: [{
-          type: 'document',
-          source: { type: 'base64', media_type: 'application/pdf', data: base64 }
-        }, {
-          type: 'text',
-          text: 'Extract ALL text from this PDF exactly as written. Return only the raw text, no commentary.'
-        }]
+        content: [
+          {
+            type: 'document' as const,
+            source: { type: 'base64' as const, media_type: 'application/pdf' as const, data: base64 }
+          } as any,
+          {
+            type: 'text' as const,
+            text: 'Extract ALL text from this PDF exactly as written. Return only the raw text, no commentary.'
+          }
+        ]
       }]
     })
 
