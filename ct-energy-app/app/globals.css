@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-body: 'Inter', sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+@layer base {
+  ::selection { background: #22c55e33; color: #4ade80; }
+  :focus-visible { outline: 2px solid #4ade80; outline-offset: 2px; }
+}
+
+@layer components {
+  .card {
+    @apply bg-slate-900 border border-slate-800 rounded-xl;
+  }
+  .card-hover {
+    @apply card transition-colors hover:border-slate-700 cursor-pointer;
+  }
+  .btn-primary {
+    @apply bg-volt-500 hover:bg-volt-600 text-slate-950 font-medium px-4 py-2 rounded-lg text-sm transition-colors;
+  }
+  .btn-ghost {
+    @apply border border-slate-700 hover:border-slate-500 hover:bg-slate-800 text-slate-300 px-4 py-2 rounded-lg text-sm transition-colors;
+  }
+  .input {
+    @apply bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100 focus:border-volt-500 focus:outline-none w-full transition-colors;
+  }
+  .label { @apply text-xs text-slate-400 mb-1 block; }
+  .badge-green { @apply text-xs bg-volt-500/15 text-volt-400 px-2 py-0.5 rounded-full; }
+  .badge-blue { @apply text-xs bg-blue-500/15 text-blue-400 px-2 py-0.5 rounded-full; }
+  .badge-amber { @apply text-xs bg-amber-500/15 text-amber-400 px-2 py-0.5 rounded-full; }
+  .badge-red { @apply text-xs bg-rose-500/15 text-rose-400 px-2 py-0.5 rounded-full; }
+}
